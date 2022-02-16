@@ -1,12 +1,12 @@
 const asyncHandler = require("express-async-handler");
-
 const Product = require("../models/productModel");
+const User = require("../models/userModel");
 
 // @description Get products
 // @route GET /api/products
 // @access Private
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({});
+  const products = await Product.find({ user: req.user.id });
   res.status(200).json(products);
 });
 
@@ -21,6 +21,7 @@ const setProduct = asyncHandler(async (req, res) => {
 
   const product = await Product.create({
     text: req.body.text,
+    user: req.user.id,
   });
   res.status(200).json(product);
 });
@@ -34,6 +35,16 @@ const updateProduct = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Product not found");
   }
+  const user = await User.findById(req.user.id);
+  if (!user) {
+    res.status(401);
+    throw new Error("User not found");
+  }
+  if (product.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error("User not authorized");
+  }
+
   const updatedProduct = await Product.findByIdAndUpdate(
     req.params.id,
     req.body,
@@ -50,6 +61,16 @@ const deleteProduct = asyncHandler(async (req, res) => {
   if (!product) {
     res.status(400);
     throw new Error("Product not found");
+  }
+
+  const user = await User.findById(req.user.id);
+  if (!user) {
+    res.status(401);
+    throw new Error("User not found");
+  }
+  if (product.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error("User not authorized");
   }
 
   await product.remove();
