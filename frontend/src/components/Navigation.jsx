@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BiUserCircle, BiUserPlus } from "react-icons/bi";
 
 function Navigation() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   return (
     <nav>
       <ul>
