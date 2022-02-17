@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 function Login() {
   const navigate = useNavigate();
@@ -8,16 +9,17 @@ function Login() {
     password: "",
   });
   const [errorText, setErrorText] = useState("");
+  const [userContext, setUserContext] = useContext(UserContext);
 
   const { email, password } = form;
 
   const handleSubmit = async (e) => {
+    // 修正したい
     e.preventDefault();
     const userData = {
       email,
       password,
     };
-    console.log(process.env.REACT_APP_API_ENDPOINT + "/api/users/login");
     await fetch(process.env.REACT_APP_API_ENDPOINT + "/api/users/login", {
       mode: "cors",
       method: "POST",
@@ -26,24 +28,29 @@ function Login() {
       },
       body: JSON.stringify(userData),
     })
-      .then((res) => {
+      .then(async (res) => {
         if (!res.ok) {
+          console.log("login test");
           if (res.status === 400) {
             setErrorText("Missing Credential");
           } else if (res.status === 401) {
             setErrorText("Invalid email and/or password");
-          } else {
-            setErrorText("Something went wrong! Please try again");
           }
+          // else {
+          //   setErrorText("Something went wrong! Please try again");
+          // }
+        } else {
+          const data = await res.json();
+          setUserContext((prev) => ({ ...prev, token: data.token }));
+          navigate("/");
+          console.log("login success");
         }
       })
       .catch((error) => {
         window.alert(error);
         return;
       });
-    console.log(userData);
-    console.log("login success");
-    navigate("/");
+    // console.log(userData);
   };
 
   const onChangeEmail = (e) => {

@@ -14,13 +14,16 @@ const getProducts = asyncHandler(async (req, res) => {
 // @route POST /api/products
 // @access Private
 const setProduct = asyncHandler(async (req, res) => {
-  if (!req.body.text) {
+  console.dir(JSON.stringify(req.body));
+
+  if (!req.body.product) {
+    console.log(req.body);
     res.status(400);
     throw new Error("Please add a text field");
   }
 
   const product = await Product.create({
-    text: req.body.text,
+    product: req.body.product,
     user: req.user.id,
   });
   res.status(200).json(product);

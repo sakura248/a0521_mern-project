@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { register } from "../app/auth";
+import { UserContext } from "../context/UserContext";
 
 function Register() {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ function Register() {
   });
 
   const [errorText, setErrorText] = useState([]);
+  const [userContext, setUserContext] = useContext(UserContext);
 
   const { name, email, password, password2 } = form;
 
@@ -33,10 +35,26 @@ function Register() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(userData),
-      }).catch((error) => {
-        window.alert(error);
-        return;
-      });
+      })
+        .then(async (res) => {
+          if (!res.ok) {
+            if (res.status === 400) {
+              setErrorText("Missing Credential");
+            } else if (res.status === 401) {
+              setErrorText("Invalid email and/or password");
+            }
+            // else {
+            //   setErrorText("Something went wrong! Please try again");
+            // }
+          } else {
+            const data = await res.json();
+            setUserContext((prev) => ({ ...prev, token: data.token }));
+          }
+        })
+        .catch((error) => {
+          window.alert(error);
+          return;
+        });
       // register(userData);
       navigate("/");
     }
