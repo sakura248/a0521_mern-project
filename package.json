@@ -7,11 +7,12 @@
   "license": "MIT",
   "scripts": {
     "start": "node backend/server.js",
-    "build": "cd frontend && yarn run build",
+    "build": "cd frontend && yarn build",
+    "server": "nodemon backend/server.js",
+    "client": "yarn --cwd frontend start",
     "dev": "concurrently \"yarn run server\" \"yarn run client \"",
     "install-client": "cd frontend && yarn install",
     "heroku-postbuild": "yarn install-client && yarn run build",
-    "server": "nodemon backend/server.js",
     "develop": "concurrently --kill-others-on-fail \"yarn run server\" \"yarn run start --prefix client\"",
     "start": "concurrently --kill-others-on-fail \"yarn run server\" \"yarn run start --prefix client\""
   },
