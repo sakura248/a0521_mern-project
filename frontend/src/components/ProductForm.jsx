@@ -2,7 +2,8 @@ import React, { useState, useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
+import { Input, Button } from "@mui/material";
 
 function ProductForm() {
   const [userContext, setUserContext] = useContext(UserContext);
@@ -48,7 +49,7 @@ function ProductForm() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <input
+        <Input
           type="text"
           onChange={onChangeProduct}
           required="required"

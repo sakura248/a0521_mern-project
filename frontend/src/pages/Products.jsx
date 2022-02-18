@@ -1,7 +1,14 @@
 import React from "react";
 import Product from "../components/Product";
 import ProductForm from "../components/ProductForm";
-import { DragDropContext } from "react-beautiful-dnd";
+import {
+  List,
+  ListItem,
+  ListItemText,
+  IconButton,
+  Box,
+  Typography,
+} from "@mui/material";
 
 function Products() {
   const handleOnChange = (e) => {
@@ -9,11 +16,13 @@ function Products() {
   };
 
   return (
-    <div>
+    <Box
+      sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
       {/* <h2>Your Skincare Products</h2> */}
       <ProductForm />
       <Product handleOnChange={handleOnChange} />
-    </div>
+    </Box>
   );
 }
 
