@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import { Box, Button, TextField } from "@mui/material";
 
 function Login() {
   const navigate = useNavigate();
@@ -61,30 +62,47 @@ function Login() {
   };
 
   return (
-    <div>
+    <Box
+      sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
       <h1>Welcome Back!</h1>
       <form action="" onSubmit={handleSubmit}>
-        {errorText && errorText}
-        <input
-          type="email"
-          onChange={onChangeEmail}
-          required="required"
-          placeholder="Enter your email"
-          id="email"
-          name="email"
-        />
-        <input
-          type="password"
-          onChange={onChangePassword}
-          required="required"
-          // value={password}
-          placeholder="Enter password"
-          id="password"
-          name="password"
-        />
-        <button type="submit">Submit</button>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          {errorText && errorText}
+          <TextField
+            type="email"
+            onChange={onChangeEmail}
+            required="required"
+            placeholder="Enter your email"
+            id="email"
+            name="email"
+            label="Email"
+            sx={{
+              m: 2,
+            }}
+          />
+          <TextField
+            type="password"
+            onChange={onChangePassword}
+            required="required"
+            // value={password}
+            placeholder="Enter password"
+            id="password"
+            name="password"
+            label="Password"
+          />
+          <Button type="submit" variant="contained" sx={{ m: 1 }}>
+            Submit
+          </Button>
+        </Box>
       </form>
-    </div>
+    </Box>
   );
 }
 

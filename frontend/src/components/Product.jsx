@@ -8,10 +8,20 @@ import React, {
 import { UserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { BsDashSquareDotted } from "react-icons/bs";
-import { BiMessageSquareEdit } from "react-icons/bi";
+// import { BsDashSquareDotted } from "react-icons/bs";
+// import { BiMessageSquareEdit } from "react-icons/bi";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { v4 as uuidv4 } from "uuid";
+import {
+  List,
+  ListItem,
+  ListItemText,
+  IconButton,
+  Box,
+  Typography,
+} from "@mui/material";
+
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 function Product() {
   const [userContext, setUserContext] = useContext(UserContext);
@@ -169,36 +179,29 @@ function Product() {
   const [columns, setColumns] = useState(itemsFromList);
   console.log("columns", columns);
 
-  Object.values(columns).map((item) => {
-    console.log("親", item.name);
-    console.log("親", item.items);
-    // Object.values(item).map((item) => {
-    //   console.log("子", item);
-    // });
-  });
-
   return (
-    <div>
+    <Box
+      sx={{
+        width: "100%",
+        maxWidth: 360,
+        bgcolor: "background.paper",
+        flexDirection: "row",
+      }}
+    >
       <DragDropContext
         onDragEnd={(result) => handleDragEnd(result, columns, setColumns)}
       >
         {Object.entries(columns).map(([columnId, column], index) => {
           return (
-            <div key={columnId}>
-              <h2>{column.name}</h2>
-              <div style={{ margin: 8 }}>
+            <List key={columnId} sx={{ boxShadow: 1, m: 2 }}>
+              <Typography variant="h5" sx={{ margin: 2 }}>
+                {column.name}
+              </Typography>
+              <div>
                 <Droppable droppableId={columnId} key={columnId}>
                   {(provided, snapshot) => {
                     return (
-                      <div
-                        {...provided.droppableProps}
-                        ref={provided.innerRef}
-                        style={{
-                          background: snapshot.isDraggingOver
-                            ? "lightblue"
-                            : "lightgrey",
-                        }}
-                      >
+                      <div {...provided.droppableProps} ref={provided.innerRef}>
                         {column.items.map((item, index) => {
                           return (
                             <Draggable
@@ -208,23 +211,25 @@ function Product() {
                             >
                               {(provided, snapshot) => {
                                 return (
-                                  <div
+                                  <ListItem
+                                    sx={{
+                                      flexDirection: "row",
+                                      justifyContent: "flex-start",
+                                    }}
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
-                                    style={{
-                                      color: "black",
-                                      ...provided.draggableProps.style,
-                                    }}
                                   >
-                                    {item.product}
-                                    {/* <button
+                                    <ListItemText sx={{ flexDirection: "row" }}>
+                                      {item.product}
+                                    </ListItemText>
+                                    <IconButton
                                       type="submit"
                                       onClick={() => deleteProduct(item._id)}
                                     >
-                                      <BsDashSquareDotted />
-                                    </button> */}
-                                  </div>
+                                      <HighlightOffIcon />
+                                    </IconButton>
+                                  </ListItem>
                                 );
                               }}
                             </Draggable>
@@ -236,14 +241,14 @@ function Product() {
                   }}
                 </Droppable>
               </div>
-            </div>
+            </List>
           );
         })}
       </DragDropContext>
       {!list && <h3>There is no product</h3>}
 
       {errorText && <p>{errorText}</p>}
-    </div>
+    </Box>
   );
 }
 
