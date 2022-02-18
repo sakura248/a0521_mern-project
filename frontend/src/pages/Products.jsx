@@ -8,6 +8,7 @@ import {
   IconButton,
   Box,
   Typography,
+  Button,
 } from "@mui/material";
 
 function Products() {
@@ -28,7 +29,11 @@ function Products() {
     >
       {/* <h2>Your Skincare Products</h2> */}
       <ProductForm setSentForm={setSentForm} />
-      <Product handleOnChange={handleOnChange} sentForm={sentForm} setSentForm={setSentForm} />
+      <Product
+        handleOnChange={handleOnChange}
+        sentForm={sentForm}
+        setSentForm={setSentForm}
+      />
     </Box>
   );
 }

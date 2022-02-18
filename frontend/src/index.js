@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { UserProvider } from "./context/UserContext";
-import { FormProvider } from "./context/FormContext";
 
 import "./index.css";
 import App from "./App";
@@ -29,9 +28,7 @@ ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <UserProvider>
-        <FormProvider>
-          <App />
-        </FormProvider>
+        <App />
       </UserProvider>
     </ThemeProvider>
   </React.StrictMode>,

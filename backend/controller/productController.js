@@ -14,7 +14,7 @@ const getProducts = asyncHandler(async (req, res) => {
 // @route POST /api/products
 // @access Private
 const setProduct = asyncHandler(async (req, res) => {
-  console.dir(JSON.stringify(req.body));
+  // console.dir(JSON.stringify(req.body));
 
   if (!req.body.product) {
     res.status(400);
@@ -33,6 +33,8 @@ const setProduct = asyncHandler(async (req, res) => {
 // @route PUT /api/products/:id
 // @access Private
 const updateProduct = asyncHandler(async (req, res) => {
+  console.dir(JSON.stringify(req.body));
+
   const product = await Product.findById(req.params.id);
   if (!product) {
     res.status(400);

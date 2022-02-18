@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../context/UserContext";
-import { FormContext } from "../context/FormContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -13,29 +12,29 @@ import {
   IconButton,
   Box,
   Typography,
+  Button,
 } from "@mui/material";
 import "./product.css";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 function Product({ sentForm, setSentForm }) {
   const [userContext] = useContext(UserContext);
-  const [formContext, setFormContext] = useContext(FormContext);
-  console.log(sentForm);
   const [list, setList] = useState([]);
   let itemsFromList = {};
 
   const { v4: uuidv4 } = require("uuid");
 
   const token = userContext.token;
-  const data = formContext.data;
   const navigate = useNavigate();
 
   const [errorText, setErrorText] = useState("");
   const url = process.env.REACT_APP_API_ENDPOINT + "/api/products/";
 
-  // const editProduct = async (id) => {
-  //   console.log("test");
-  // };
+  const [form, setRegister] = useState({
+    product: "",
+    timeframe: "",
+    // password: "",
+  });
 
   const deleteProduct = async (id) => {
     const config = {
@@ -177,6 +176,47 @@ function Product({ sentForm, setSentForm }) {
 
   const [columns, setColumns] = useState(itemsFromList);
 
+  const updateProduct = async (token) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    try {
+      const product = form.product;
+      await axios.post(url, { product }, config);
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
+
+  const saveRoutine = async (e) => {
+    e.preventDefault();
+    console.log(token);
+    Object.values(columns).map((item) => {
+      item.items.map(async (child) => {
+        // console.log(item.name, child.product);
+        setRegister({
+          ...form,
+          // product: child.product,
+          timeframe: item.name,
+        });
+
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        try {
+          const timeframe = item.name;
+          await axios.post(url + child._id, { timeframe }, config);
+        } catch (err) {
+          console.log(err.response);
+        }
+      });
+    });
+  };
+
   return (
     <Box
       sx={{
@@ -186,7 +226,7 @@ function Product({ sentForm, setSentForm }) {
         "ul:first-child": {
           bgcolor: "#fff4c1",
         },
-        "ul:nth-last-child(-n+3)": {
+        "ul:nth-last-child(-n+4)": {
           bgcolor: "#fffffe",
         },
       }}
@@ -252,7 +292,15 @@ function Product({ sentForm, setSentForm }) {
         })}
       </DragDropContext>
       {!list && <h3>There is no product</h3>}
-
+      <Button
+        onClick={saveRoutine}
+        type="submit"
+        variant="contained"
+        color="secondary"
+        sx={{ ml: 2 }}
+      >
+        Save
+      </Button>
       {errorText && <p>{errorText}</p>}
     </Box>
   );

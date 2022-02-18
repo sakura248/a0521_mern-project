@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "../context/UserContext";
-import { FormContext } from "../context/FormContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 // import Button from "@mui/material/Button";
@@ -8,7 +7,6 @@ import { Input, Button } from "@mui/material";
 
 function ProductForm({ setSentForm }) {
   const [userContext] = useContext(UserContext);
-  const [formContext, setFormContext] = useContext(FormContext);
   const [form, setRegister] = useState({
     product: "",
     timeframe: "",
