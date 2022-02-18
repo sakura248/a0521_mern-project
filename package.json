@@ -5,6 +5,9 @@
   "main": "server.js",
   "author": "Sakura Nishiya",
   "license": "MIT",
+  "engines": {
+    "node": "16.14.0"
+  },
   "scripts": {
     "start": "node backend/server.js",
     "build": "cd frontend && yarn build",
