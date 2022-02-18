@@ -23,7 +23,7 @@ app.use(errorHandler);
 const path = require("path");
 
 // Step 1:
-app.use(express.static(path.resolve(__dirname, "./frontend/build")));
+app.use(express.static(path.resolve(__dirname, "./frontend/public")));
 // Step 2:
 app.get("*", function (request, response) {
   response.sendFile(path.resolve(__dirname, "./frontend/public", "index.html"));

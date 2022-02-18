@@ -8,13 +8,12 @@
   "scripts": {
     "start": "node backend/server.js",
     "build": "cd frontend && yarn run build",
+    "dev": "concurrently \"yarn run server\" \"yarn run client \"",
     "install-client": "cd frontend && yarn install",
-    "heroku-postbuild": "yarn run install-client && yarn run build",
+    "heroku-postbuild": "yarn install-client && yarn run build",
     "server": "nodemon backend/server.js",
     "develop": "concurrently --kill-others-on-fail \"yarn run server\" \"yarn run start --prefix client\"",
-    "start": "concurrently --kill-others-on-fail \"yarn run server\" \"yarn run start --prefix client\"",
-    "client": "yarn --cwd frontend start",
-    "dev": "concurrently \"yarn run server\" \"yarn run client \""
+    "start": "concurrently --kill-others-on-fail \"yarn run server\" \"yarn run start --prefix client\""
   },
   "dependencies": {
     "axios": "^0.26.0",
