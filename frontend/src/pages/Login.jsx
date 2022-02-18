@@ -42,6 +42,7 @@ function Login() {
         } else {
           const data = await res.json();
           setUserContext((prev) => ({ ...prev, token: data.token }));
+          navigate("/");
           console.log("login success");
         }
       })
