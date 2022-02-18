@@ -79,6 +79,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
   await product.remove();
 
   res.status(200).json({ id: req.params.id });
+  res.redirect("/Product");
 });
 
 module.exports = {

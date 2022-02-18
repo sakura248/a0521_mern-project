@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 
 function Register() {
   const navigate = useNavigate();
@@ -49,6 +49,7 @@ function Register() {
           } else {
             const data = await res.json();
             setUserContext((prev) => ({ ...prev, token: data.token }));
+            navigate("/Products");
           }
         })
         .catch((error) => {
@@ -81,9 +82,14 @@ function Register() {
 
   return (
     <Box
-      sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        mt: 12,
+      }}
     >
-      <h1>Register</h1>
+      <Typography variant="h3">Register</Typography>
       <p>Get Started</p>
       <form action="" onSubmit={handleSubmit}>
         <Box
@@ -104,6 +110,7 @@ function Register() {
             label="Name"
             sx={{
               m: 2,
+              bgcolor: "#fffffe",
             }}
           />
           <TextField
@@ -116,6 +123,7 @@ function Register() {
             label="Email"
             sx={{
               m: 2,
+              bgcolor: "#fffffe",
             }}
           />
           <TextField
@@ -129,6 +137,7 @@ function Register() {
             label="Password"
             sx={{
               m: 2,
+              bgcolor: "#fffffe",
             }}
           />
           <TextField
@@ -142,6 +151,7 @@ function Register() {
             label="Confirm password"
             sx={{
               m: 2,
+              bgcolor: "#fffffe",
             }}
           />
           <Button type="submit" variant="contained" sx={{ m: 1 }}>

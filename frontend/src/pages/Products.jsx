@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Product from "../components/Product";
 import ProductForm from "../components/ProductForm";
 import {
@@ -15,13 +15,20 @@ function Products() {
     console.log(e.target.value);
   };
 
+  const [sentForm, setSentForm] = useState(false);
+
   return (
     <Box
-      sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        mt: 12,
+      }}
     >
       {/* <h2>Your Skincare Products</h2> */}
-      <ProductForm />
-      <Product handleOnChange={handleOnChange} />
+      <ProductForm setSentForm={setSentForm} />
+      <Product handleOnChange={handleOnChange} sentForm={sentForm} setSentForm={setSentForm} />
     </Box>
   );
 }

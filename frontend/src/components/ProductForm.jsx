@@ -1,20 +1,24 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "../context/UserContext";
+import { FormContext } from "../context/FormContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 // import Button from "@mui/material/Button";
 import { Input, Button } from "@mui/material";
 
-function ProductForm() {
-  const [userContext, setUserContext] = useContext(UserContext);
+function ProductForm({ setSentForm }) {
+  const [userContext] = useContext(UserContext);
+  const [formContext, setFormContext] = useContext(FormContext);
   const [form, setRegister] = useState({
     product: "",
     timeframe: "",
     // password: "",
   });
-  const [errorText, setErrorText] = useState("");
+  // const [errorText, setErrorText] = useState("");
 
   const token = userContext.token;
+  const data = userContext.data;
+
   const url = process.env.REACT_APP_API_ENDPOINT + "/api/products/";
   const navigate = useNavigate();
 
@@ -39,6 +43,7 @@ function ProductForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     postProduct(token);
+    setSentForm(true);
     setRegister({ ...form, product: "" });
     navigate("/Products");
 
@@ -57,8 +62,14 @@ function ProductForm() {
           id="product"
           name="product"
           value={form.product}
+          sx={{ p: "10px", bgcolor: "#fffffe" }}
         />
-        <Button type="submit" variant="contained" color="primary">
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          sx={{ ml: 2 }}
+        >
           Submit
         </Button>
       </form>

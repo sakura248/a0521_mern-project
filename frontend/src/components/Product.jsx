@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../context/UserContext";
+import { FormContext } from "../context/FormContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 // import { v4 as uuidv4 } from "uuid";
+
 import {
   List,
   ListItem,
@@ -12,17 +14,20 @@ import {
   Box,
   Typography,
 } from "@mui/material";
-
+import "./product.css";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
-function Product() {
+function Product({ sentForm, setSentForm }) {
   const [userContext] = useContext(UserContext);
+  const [formContext, setFormContext] = useContext(FormContext);
+  console.log(sentForm);
   const [list, setList] = useState([]);
   let itemsFromList = {};
 
   const { v4: uuidv4 } = require("uuid");
 
   const token = userContext.token;
+  const data = formContext.data;
   const navigate = useNavigate();
 
   const [errorText, setErrorText] = useState("");
@@ -43,7 +48,7 @@ function Product() {
     } catch (err) {
       console.log(err.response);
     }
-    navigate("/Products");
+    setSentForm(true);
     // .then(async (res) => {
     //   console.log(res);
     //   if (!res.ok) {
@@ -69,20 +74,22 @@ function Product() {
     // });
   };
 
+  const getProducts = async (token) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await axios.get(url, config);
+    return response.data;
+  };
+
   useEffect(() => {
     async function fetch() {
       if (!token) {
         navigate("/Login");
       }
-      const getProducts = async (token) => {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
-        const response = await axios.get(url, config);
-        return response.data;
-      };
+
       const data = await getProducts(token);
       if (data.statusText !== "OK") {
         if (data.status === 400) {
@@ -95,7 +102,8 @@ function Product() {
         // }
       }
       setList(data);
-      // console.log(list);
+      console.log("list", list);
+      setSentForm(false);
 
       // .catch((error) => {
       //   window.alert(error);
@@ -104,7 +112,7 @@ function Product() {
     }
 
     fetch();
-  }, [navigate, token, url]);
+  }, [sentForm]);
   // console.log(list);
 
   itemsFromList = {
@@ -167,17 +175,20 @@ function Product() {
     setColumns(itemsFromList);
   }, [list]);
 
-  console.log("itemsFromList", itemsFromList);
   const [columns, setColumns] = useState(itemsFromList);
-  console.log("columns", columns);
 
   return (
     <Box
       sx={{
         width: "100%",
         maxWidth: 360,
-        bgcolor: "background.paper",
         flexDirection: "row",
+        "ul:first-child": {
+          bgcolor: "#fff4c1",
+        },
+        "ul:nth-last-child(-n+3)": {
+          bgcolor: "#fffffe",
+        },
       }}
     >
       <DragDropContext
@@ -185,7 +196,10 @@ function Product() {
       >
         {Object.entries(columns).map(([columnId, column], index) => {
           return (
-            <List key={columnId} sx={{ boxShadow: 1, m: 2 }}>
+            <List
+              key={columnId}
+              sx={{ boxShadow: 1, m: 2, borderRadius: "20px" }}
+            >
               <Typography variant="h5" sx={{ margin: 2 }}>
                 {column.name}
               </Typography>

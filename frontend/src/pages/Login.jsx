@@ -1,7 +1,8 @@
 import React, { useState, useContext } from "react";
 // import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   // const navigate = useNavigate();
@@ -13,7 +14,7 @@ function Login() {
   const [userContext, setUserContext] = useContext(UserContext);
 
   const { email, password } = form;
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     // 修正したい
     e.preventDefault();
@@ -44,6 +45,7 @@ function Login() {
           const data = await res.json();
           setUserContext((prev) => ({ ...prev, token: data.token }));
           console.log("login success");
+          navigate("/Products");
         }
       })
       .catch((error) => {
@@ -63,9 +65,16 @@ function Login() {
 
   return (
     <Box
-      sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        mt: 12,
+      }}
     >
-      <h1>Welcome Back!</h1>
+      <Typography variant="h3" sx={{ mb: 3 }}>
+        Welcome Back!
+      </Typography>
       <form action="" onSubmit={handleSubmit}>
         <Box
           sx={{
@@ -85,6 +94,7 @@ function Login() {
             label="Email"
             sx={{
               m: 2,
+              bgcolor: "#fffffe",
             }}
           />
           <TextField
@@ -96,6 +106,7 @@ function Login() {
             id="password"
             name="password"
             label="Password"
+            sx={{ bgcolor: "#fffffe" }}
           />
           <Button type="submit" variant="contained" sx={{ m: 1 }}>
             Submit

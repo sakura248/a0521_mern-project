@@ -3,12 +3,22 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { BiUserCircle, BiUserPlus } from "react-icons/bi";
 import { BsCardList } from "react-icons/bs";
 import { UserContext } from "../context/UserContext";
-import { Button, Menu, MenuItem, Link, ListItemIcon } from "@mui/material";
+import {
+  Button,
+  Menu,
+  MenuItem,
+  Link,
+  ListItemIcon,
+  AppBar,
+  Toolbar,
+  IconButton,
+} from "@mui/material";
 import {
   ListAltSharp,
   LoginOutlined,
   PersonAddAltOutlined,
   LogoutOutlined,
+  MenuOutlined,
 } from "@mui/icons-material";
 
 function Navigation() {
@@ -30,83 +40,96 @@ function Navigation() {
   };
 
   return (
-    <nav>
-      <Button
-        aria-controls={open ? "basic-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
-      >
-        Dashboard
-      </Button>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        <MenuItem onClick={handleClose}>
-          <Link
-            to="/"
-            underline="none"
-            component={RouterLink}
-            sx={{ display: "flex", alignItems: "center" }}
-          >
-            Top
-          </Link>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Link
-            to="/Products"
-            underline="none"
-            component={RouterLink}
-            sx={{ display: "flex", alignItems: "center" }}
-          >
-            <ListItemIcon>
-              <ListAltSharp fontSize="small" />
-            </ListItemIcon>
-            Your List
-          </Link>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Link
-            to="/Login"
-            underline="none"
-            component={RouterLink}
-            sx={{ display: "flex", alignItems: "center" }}
-          >
-            <ListItemIcon>
-              <LoginOutlined fontSize="small" />
-            </ListItemIcon>
-            Login
-          </Link>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Link
-            to="/Register"
-            underline="none"
-            component={RouterLink}
-            sx={{ display: "flex", alignItems: "center" }}
-          >
-            <ListItemIcon>
-              <PersonAddAltOutlined fontSize="small" />
-            </ListItemIcon>
-            Register
-          </Link>
-        </MenuItem>
-        {token && (
-          <MenuItem onClick={logout}>
-            <ListItemIcon>
-              <LogoutOutlined fontSize="small" />
-            </ListItemIcon>
-            Log out
+    <AppBar color="secondary">
+      <Toolbar>
+        <IconButton
+          aria-controls={open ? "basic-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+          onClick={handleClick}
+        >
+          <MenuOutlined />
+        </IconButton>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <MenuItem onClick={handleClose}>
+            <Link
+              to="/"
+              underline="none"
+              component={RouterLink}
+              sx={{ display: "flex", alignItems: "center" }}
+              sx={"color:#2d334a;"}
+            >
+              Top
+            </Link>
           </MenuItem>
-        )}
-      </Menu>
-    </nav>
+          <MenuItem onClick={handleClose}>
+            <Link
+              to="/Products"
+              underline="none"
+              component={RouterLink}
+              sx={({ display: "flex", alignItems: "center" }, "color:#2d334a;")}
+            >
+              <ListItemIcon>
+                <ListAltSharp fontSize="small" />
+              </ListItemIcon>
+              Your List
+            </Link>
+          </MenuItem>
+
+          {token ? (
+            <MenuItem onClick={logout}>
+              <ListItemIcon>
+                <LogoutOutlined fontSize="small" />
+              </ListItemIcon>
+              Log out
+            </MenuItem>
+          ) : (
+            <>
+              <MenuItem onClick={handleClose}>
+                <Link
+                  to="/Login"
+                  underline="none"
+                  component={RouterLink}
+                  sx={
+                    ({ display: "flex", alignItems: "center" },
+                    "color:#2d334a;")
+                  }
+                >
+                  <ListItemIcon>
+                    <LoginOutlined fontSize="small" />
+                  </ListItemIcon>
+                  Login
+                </Link>
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <Link
+                  to="/Register"
+                  underline="none"
+                  component={RouterLink}
+                  sx={
+                    ({ display: "flex", alignItems: "center" },
+                    "color:#2d334a;")
+                  }
+                >
+                  <ListItemIcon>
+                    <PersonAddAltOutlined fontSize="small" />
+                  </ListItemIcon>
+                  Register
+                </Link>
+              </MenuItem>
+            </>
+          )}
+        </Menu>
+      </Toolbar>
+    </AppBar>
   );
 }
 
