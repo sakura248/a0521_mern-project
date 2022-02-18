@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { register } from "../app/auth";
 import { UserContext } from "../context/UserContext";
 import { Box, Button, TextField } from "@mui/material";
 

@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import { Box, Button, TextField } from "@mui/material";
 
 function Login() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [form, setRegister] = useState({
     email: "",
     password: "",

@@ -1,17 +1,9 @@
-import React, {
-  useState,
-  useEffect,
-  useContext,
-  // useCallback,
-  // useMemo,
-} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-// import { BsDashSquareDotted } from "react-icons/bs";
-// import { BiMessageSquareEdit } from "react-icons/bi";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 import {
   List,
   ListItem,
@@ -24,7 +16,7 @@ import {
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 function Product() {
-  const [userContext, setUserContext] = useContext(UserContext);
+  const [userContext] = useContext(UserContext);
   const [list, setList] = useState([]);
   let itemsFromList = {};
 
@@ -36,9 +28,9 @@ function Product() {
   const [errorText, setErrorText] = useState("");
   const url = process.env.REACT_APP_API_ENDPOINT + "/api/products/";
 
-  const editProduct = async (id) => {
-    console.log("test");
-  };
+  // const editProduct = async (id) => {
+  //   console.log("test");
+  // };
 
   const deleteProduct = async (id) => {
     const config = {
@@ -112,7 +104,7 @@ function Product() {
     }
 
     fetch();
-  }, []);
+  }, [navigate, token, url]);
   // console.log(list);
 
   itemsFromList = {
