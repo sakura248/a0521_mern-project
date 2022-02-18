@@ -17,13 +17,13 @@ const setProduct = asyncHandler(async (req, res) => {
   console.dir(JSON.stringify(req.body));
 
   if (!req.body.product) {
-    console.log(req.body);
     res.status(400);
     throw new Error("Please add a text field");
   }
 
   const product = await Product.create({
     product: req.body.product,
+    timeframe: req.body.timeframe,
     user: req.user.id,
   });
   res.status(200).json(product);
