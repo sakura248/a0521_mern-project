@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node backend/server.js",
-    "build": "cd client && yarn run build",
+    "build": "cd frontend && yarn run build",
     "install-client": "cd frontend && yarn install",
     "heroku-postbuild": "yarn run install-client && yarn run build",
     "server": "nodemon backend/server.js",
