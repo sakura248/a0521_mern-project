@@ -11,6 +11,14 @@ const productSchema = mongoose.Schema(
       type: String,
       required: [true, "Please add a text"],
     },
+    timeframe: {
+      type: String,
+      required: [false, "Please choose when to use"],
+    },
+    // concerns: {
+    //   type: String,
+    //   required: [true, "Please add a text"],
+    // },
   },
   {
     timestamps: true,
